@@ -179,15 +179,15 @@ publishing {
             pom {
                 name = 'Secure Modular Jar handler'
                 description = 'Making the Java modular system provide security information'
-                url = 'https://github.com/McModLauncher/securejarhandler'
+                url = 'https://github.com/Paesss/securejarhandler'
                 scm {
-                    url = 'https://github.com/McModLauncher/securejarhandler'
-                    connection = 'scm:git:git://github.com/McModLauncher/securejarhandler.git'
-                    developerConnection = 'scm:git:git@github.com:McModLauncher/securejarhandler.git'
+                    url = 'https://github.com/Paesss/securejarhandler'
+                    connection = 'scm:git:git://github.com/Paesss/securejarhandler.git'
+                    developerConnection = 'scm:git:git@github.com:Paesss/securejarhandler.git'
                 }
                 issueManagement {
                     system = 'github'
-                    url = 'https://github.com/McModLauncher/securejarhandler/issues'
+                    url = 'https://github.com/Paesss/securejarhandler/issues'
                 }
 
                 developers {
