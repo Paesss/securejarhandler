@@ -217,17 +217,36 @@ public class ModuleClassLoader extends ClassLoader {
     protected Class<?> findClass(final String moduleName, final String name) {
         try {
             return loadFromModule(moduleName, (reader, ref) -> this.readerToClass(reader, ref, name));
-        } catch (IOException e) {
+        } catch (RuntimeException e) {
             return null;
         }
     }
 
-    protected <T> T loadFromModule(final String moduleName, BiFunction<ModuleReader, ModuleReference, T> lookup) throws IOException {
-        var module = configuration.findModule(moduleName).orElseThrow(FileNotFoundException::new);
-        var ref = module.reference();
+    protected <T> T loadFromModule(ResolvedModule resolvedModule, BiFunction<ModuleReader, ModuleReference, T> lookup) throws IOException{
+        var ref = resolvedModule.reference();
         try (var reader = ref.open()) {
             return lookup.apply(reader, ref);
         }
+    }
+
+    protected Optional<ResolvedModule> findModule(String moduleName){
+        try{
+            return configuration.findModule(moduleName);
+        }
+        catch (NullPointerException e){
+            return Optional.empty();
+        }
+    }
+
+    protected <T> T loadFromModule(final String moduleName, BiFunction<ModuleReader, ModuleReference, T> lookup) throws RuntimeException {
+        var module = findModule(moduleName);
+        return module.map(resolvedModule -> {
+            try {
+                return loadFromModule(resolvedModule, lookup);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).orElse(null);
     }
 
     protected byte[] getMaybeTransformedClassBytes(final String name, final String context) throws ClassNotFoundException {

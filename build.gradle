@@ -124,9 +124,9 @@ dependencies {
     testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.8.+')
 }
 
-changelog {
-    fromTag "0.9"
-}
+//changelog {
+//    fromTag "0.9"
+//}
 
 task sourcesJar(type: Jar) {
     archiveClassifier = 'sources'
@@ -161,6 +161,7 @@ jar {
                 'Git-Commit': gradleutils.gitInfo.abbreviatedId,
                 'Git-Branch': gradleutils.gitInfo.branch,
                 'Build-Number': "${System.getenv("BUILD_NUMBER")?:0}",
+                'Automatic-Module-Name': 'cpw.mods.securejarhandler'
         )
     }
 }
@@ -200,5 +201,11 @@ publishing {
     }
     repositories {
         maven gradleutils.getPublishingForgeMaven()
+        maven {
+            credentials(PasswordCredentials)
+            allowInsecureProtocol = true
+            name = 'PaesCS'
+            url = 'http://207.180.210.147:8081/repository/maven-snapshots/'
+        }
     }
 }

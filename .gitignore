@@ -17,3 +17,4 @@
 /test.jar
 /sjh-jmh/build/
 *.jfr
+!/gradle.properties
